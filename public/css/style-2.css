@@ -1,0 +1,8 @@
+.star-disable{
+    color: #bfc3c5 !important;
+}
+
+
+#star-list a:hover{
+    color: #fbd600 !important;
+}

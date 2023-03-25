@@ -1,0 +1,237 @@
+	<!-- ================ category section start ================= -->		  
+  <section class="section-margin--small mb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+          <div class="sidebar-categories">
+            <div class="head">Browse Categories</div>
+            <ul class="main-categories">
+              <li class="common-filter">
+                <form action="#">
+                  <ul>
+                    {{#each categories}}
+                    <li class="filter-list"><input class="pixel-radio" type="radio" id="category_{{id}}" name="category" onclick="setParam('category', {{id}}, true)">
+                    <label for="category_{{id}}">{{name}}<span> ({{count}})</span></label></li>
+                    {{/each}}
+                  </ul>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <div class="sidebar-filter">
+            <div class="top-filter-head">Product Filters</div>
+            <div class="common-filter">
+              <div class="head">Brands</div>
+              <form action="#">
+                <ul>
+                  {{#each brands}}
+                  <li class="filter-list">
+                    <input class="pixel-radio" type="radio" id="brand_{{id}}" name="brand" onclick="setParam('brand', {{id}})">
+                    <label for="brand_{{id}}">{{name}}<span> ({{count}})</span></label></li>
+                  {{/each}}
+                </ul>
+              </form>
+            </div>
+            <div class="common-filter">
+              <div class="head">Color</div>
+              <form action="#">
+                <ul>
+                  {{#each colors}}
+                    <li class="filter-list">
+                    <input class="pixel-radio" type="radio" id="color_{{id}}" name="color" onclick="setParam('color', {{id}})">
+                    <label for="color_{{id}}">{{name}}<span> ({{count}})</span></label>
+                    </li>
+                  {{/each}}
+                </ul>
+              </form>
+            </div>
+            <div class="common-filter">
+              <div class="head">Price</div>
+              <div class="price-range-area">
+                <div id="price-range"></div>
+                <div class="value-wrapper d-flex">
+                  <div class="price">Price:</div>
+                  <span>$</span>
+                  <div id="lower-value"></div>
+                  <div class="to">to</div>
+                  <span>$</span>
+                  <div id="upper-value"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+            <div class="sorting">
+              <select id="order" onchange="setParam('order', this.value)">
+                <option value="name-asc">Sorting by name ascending (default)</option>
+                <option value="name-desc">Sorting by name descending</option>
+                <option value="price-asc">Sorting by price ascending</option>
+                <option value="price-desc">Sorting by price descending</option>
+                <option value="review-asc">Sorting by review ascending</option>
+                <option value="review-desc">Sorting by review descending</option>
+              </select>
+            </div>
+            <div class="sorting mr-auto">
+              <select id="limit" onchange="setParam('limit', this.value)">
+                <option value="9">Show 9</option>
+                <option value="12">Show 12</option>
+                <option value="18">Show 18</option>
+                <option value="24">Show 24</option>
+                <option value="36">Show 36</option>
+              </select>
+            </div>
+            <div>
+                <form action="/products" method="get" class="input-group filter-bar-search">
+                  <input type="text" placeholder="Search" name="search" id="search">
+                  <div class="input-group-append">
+                    <button type="submit"><i class="ti-search"></i></button>
+                  </div>
+                </form>
+            </div>
+          </div>
+          <!-- End Filter Bar -->
+          <!-- Start Products -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+              {{#each products}}
+              <div class="col-md-6 col-lg-4">
+                {{> product}}
+              </div>
+              {{/each}}
+            </div>
+            <div class="row justify-content-center">
+              <nav aria-label="Page navigation example" id="pagination">
+                {{{createPagination pagination}}}
+              </nav>
+            </div>
+          </section>
+          <!-- End Products -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->		  
+
+	<!-- ================ top product area start ================= -->	
+	{{>topProduct}}
+	<!-- ================ top product area end ================= -->		
+
+	<!-- ================ Subscribe section start ================= -->		  
+  <section class="subscribe-position">
+    <div class="container">
+      <div class="subscribe text-center">
+        <h3 class="subscribe__title">Get Update From Anywhere</h3>
+        <p>Bearing Void gathering light light his eavening unto dont afraid</p>
+        <div id="mc_embed_signup">
+          <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe-form form-inline mt-5 pt-1">
+            <div class="form-group ml-sm-auto">
+              <input class="form-control mb-1" type="email" name="EMAIL" placeholder="Enter your email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '" >
+              <div class="info"></div>
+            </div>
+            <button class="button button-subscribe mr-auto mb-1" type="submit">Subscribe Now</button>
+            <div style="position: absolute; left: -5000px;">
+              <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+            </div>
+
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+	<!-- ================ Subscribe section end ================= -->		  
+ 
+ <script>
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    
+    for(const key of ['category', 'brand', 'color']){
+      let value = urlParams.get(key);
+      let control = $(`#${key}_${value}`);
+      if(control){
+        $(control).prop('checked', true);
+      }
+      else{
+        urlParams.delete(key);
+      }
+    }
+    
+    let orderList = ['name-asc', 'name-desc', 'price-asc', 'price-desc', 'review-asc', 'review-desc'];
+    let orderVal = urlParams.get('order');
+    if(orderList.includes(orderVal)) {
+      $('#order').val(orderVal);
+    }
+    else{
+      $('#order').val('name-asc');
+    }
+
+    let limitList = [9, 12, 18, 24, 36];
+    let limitVal = urlParams.get('limit');
+    limitVal = parseInt(limitVal);
+    if(limitList.includes(limitVal)){
+      $('#limit').val(limitVal);
+    }
+    else{
+      $('#limit').val(9);
+    }
+  
+    let searchVal = urlParams.get('search');
+    if(searchVal && searchVal != ''){
+      $('#search').val(searchVal);
+    }
+
+    $(document).ready(() => {
+      // Set trạng thái của pagination
+      let currentPage = parseInt(urlParams.get('page')) || 1;
+      let nPage = $("#pagination ul li").length;
+      if(currentPage < 1 || currentPage > nPage -2){
+        currentPage = 1;
+      }
+      $("#pagination ul li").removeClass("active").removeClass("disabled").eq(currentPage).addClass("active");
+
+        if(currentPage - 1 <= 0){
+          $("#pagination ul li").eq(0).addClass("disabled");
+        }
+        else{
+          $("#pagination ul li a").eq(0).attr('href', `?page=${currentPage - 1}`);
+        }
+
+        if(currentPage + 1 >= nPage - 1){
+          $("#pagination ul li").eq(nPage - 1).addClass("disabled");
+        }
+        else{
+          $("#pagination ul li a").eq(nPage - 1).attr('href', `?page=${currentPage + 1}`);
+        }
+
+      // Format cho pagination
+      $("#pagination ul li").addClass("page-item");
+      $("#pagination ul li a").addClass("page-link");
+      $("#pagination ul li a").each( (index, item) => {
+        let page = item.href.split("=")[1];
+        urlParams.set('page', page);
+        $(item).attr('href', `/products?${urlParams.toString()}`);
+        // Cách khác là gán sự kiện onClick cho hàm setParam (nhưng đường link chỉ có thể không được đúng)
+        // $(item).attr('onClick',`setParam('page', ${page})`);
+        // $(item).attr('href', '#');
+      });
+    })
+
+    function setParam(key, value, reset = false){      
+      let urlParams;
+      if(reset){
+        urlParams = new URLSearchParams();
+      }
+      else{
+        let queryString = window.location.search;
+        urlParams = new URLSearchParams(queryString);
+      }
+      urlParams.set(key, value);
+      location.href = `/products?${urlParams.toString()}`;
+    }    
+ </script>
+<script>
+  setChoose('Shop');
+</script>

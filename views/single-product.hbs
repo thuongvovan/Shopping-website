@@ -1,0 +1,358 @@
+  <!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div class="owl-carousel owl-theme s_Product_carousel">
+						<div class="single-prd-item">
+							<img class="img-fluid" src="{{product.imagepath}}" alt="Main image">
+						</div>
+						{{#each product.Colors}}
+							<div class="single-prd-item">
+							<img class="img-fluid" src="{{imagepath}}" alt="{{color}}">
+							</div>
+						{{/each}}
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{product.name}}</h3>
+						<h2>${{product.price}}</h2>
+						<ul class="list">
+							<li><a class="active" href="#"><span>Category</span> : {{product.Category.name}}</a></li>
+							<li><a class="active" href="#"><span>Brand</span> : {{product.Brand.name}}</a></li>
+							<li><a href="#"><span>Availibility</span> : {{#if product.availability}} In Stock {{else}} Out Of Stock {{/if}}</a></li>
+						</ul>
+						<p>{{product.summary}}</p>
+						<div class="product_count">
+              				<label for="qty">Quantity:</label>
+              				<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+							 class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+							<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty" readonly>
+							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;" 
+								class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
+							<a class="button primary-btn add-to-cart" data-id="{{product.id}}" >Add to Cart</a>               
+						</div>
+						<div class="card_area d-flex align-items-center">
+							{{#each product.Colors}}
+							<a class="icon_btn" href="#" style="background: {{color}};"></a>
+							{{/each}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->
+
+	<!--================Product Description Area =================-->
+	<section class="product_description_area">
+		<div class="container">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+					 aria-selected="false">Specification</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+					 aria-selected="false">Comments</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+					 aria-selected="false">Reviews</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+					{{{product.description}}}
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+								{{#each product.Specifications}}
+									<tr>
+										<td>
+											<h5>{{name}}</h5>
+										</td>
+										<td>
+											<h5>{{ProductSpecification.description}}</h5>
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="comment_list">
+								{{#each product.Comments}}
+								<div class="review_item">
+									<div class="media">
+										<div class="d-flex">
+											<img src="{{User.avatarPath}}" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{User.fullname}}</h4>
+											<h5>{{toUTC updatedAt}}</h5>
+											<a class="reply_btn" onclick="$('#comment-parentCommentId').val({{id}}); $('#comment-message').focus(); $('#reply-for').show(); $('#reply-for div').html(`Reply for: {{User.fullname}}`);" >Reply</a>
+										</div>
+									</div>
+									<p>{{message}}</p>
+								</div>
+								{{#each SubComments}}
+								<div class="review_item reply">
+									<div class="media">
+										<div class="d-flex">
+											<img src="{{User.avatarPath}}" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{User.fullname}}</h4>
+											<h5>{{toUTC updatedAt}}</h5>
+											<a class="reply_btn" onclick="$('#comment-parentCommentId').val({{../id}}); $('#comment-message').focus(); $('#reply-for').show(); $('#reply-for div').html(`Reply for: {{User.fullname}}`);" >Reply</a>
+										</div>
+									</div>
+									<p>{{message}}</p>
+								</div>
+								{{/each}}
+								{{/each}}
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="review_box">
+								{{#if isLoggedIn}}
+									<h4>Post a comment</h4>
+									<div id="reply-for">
+										<div style="display: inline;"></div>
+										<button type="button" class="close" aria-label="Close" onclick="$('#reply-for').hide(); $('#comment-parentCommentId').val(''); $('#comment-message').val();">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form class="row form-contact form-review" action="/comments" method="post" id="form-comment" novalidate="novalidate">
+										<div class="col-md-12">
+											<div class="form-group">
+												<textarea class="form-control different-control w-100" name="message" id="comment-message" rows="5" placeholder="Message"></textarea>
+											</div>
+										</div>
+										<div><input type="hidden" name="userId" value="{{userId}}" ></div>
+										<div><input type="hidden" name="productId" value="{{product.id}}" ></div>
+										<div><input type="hidden" name="parentCommentId" value="" id="comment-parentCommentId"></div>
+										<div class="col-md-12 text-right">
+											<button type="submit" value="submit" class="btn button--active button-review">Submit Now</button>
+										</div>
+									</form>	
+								{{else}}
+									<h4 class="text-center">Please login to post comment! <a href="/user/login?returnUrl=/products/{{product.id}}">Click here to login</a></h4>
+								{{/if}}
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="row total_rate">
+								<div class="col-6">
+									<div class="box_total">
+										<h5>Overall</h5>
+										<h4>{{product.overallReview}}</h4>
+										{{#if (is product.Reviews.length 0)}}
+											<h6>(0 Review)</h6>
+										{{else}}
+											{{#if (lt product.Reviews.length 10)}}
+												<h6>(0{{product.Reviews.length}} Reviews)</h6>
+											{{else}}
+												<h6>({{product.Reviews.length}} Reviews)</h6>
+											{{/if}}
+										{{/if}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="rating_list">
+										<h3>Based on {{product.Reviews.length}} Reviews</h3>
+										<ul class="list">
+											<li>
+												
+											</li>
+											<li>
+												<a href="#">5 Star {{{createStar 5}}} {{indexer product.RatingCount 4}}</a>
+											</li>
+											<li>
+												<a href="#">4 Star {{{createStar 4}}} {{indexer product.RatingCount 3}}</a>
+											</li>
+											<li>
+												<a href="#">3 Star {{{createStar 3}}} {{indexer product.RatingCount 2}}</a>
+											</li>
+											<li>
+												<a href="#">2 Star {{{createStar 2}}} {{indexer product.RatingCount 1}}</a>
+											</li>
+											<li>
+												<a href="#">1 Star {{{createStar 1}}} {{indexer product.RatingCount 0}}</a>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="review_list">
+								{{#each product.Reviews}}
+								<div class="review_item">
+									<div class="media">
+										<div class="d-flex">
+											<img src="{{User.avatarPath}}" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{User.fullname}}</h4>
+											{{{createStar rating}}}
+										</div>
+									</div>
+									<p>{{message}}</p>
+								</div>
+								{{/each}}
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="review_box">
+								{{#if isLoggedIn}}	
+									<h4>Add a Review</h4>
+									<p>Your Rating:</p>
+									<ul class="list" id="star-list">
+										<li><a><i class="fa fa-star star-disable"></i></a></li>
+										<li><a><i class="fa fa-star star-disable"></i></a></li>
+										<li><a><i class="fa fa-star star-disable"></i></a></li>
+										<li><a><i class="fa fa-star star-disable"></i></a></li>
+										<li><a><i class="fa fa-star star-disable"></i></a></li>
+									</ul>
+									<p id="rating-text"></p>
+									<form action="/review" method="post" class="form-contact form-review mt-3" id="form-review">
+										<div class="form-group">
+											<input type="hidden" name="userId" value="{{userId}}">
+											<input type="hidden" name="productId" value="{{product.id}}">
+											<input type="hidden" name="rating" id="rating" value="{{currentReview.rating}}">
+										</div>
+										<div class="form-group">
+											<textarea class="form-control different-control w-100" name="message" cols="30" rows="5" placeholder="Enter Message">{{currentReview.message}}</textarea>
+										</div>
+										<div class="form-group text-center text-md-right mt-3">
+											<button type="submit" class="button button--active button-review">Submit Now</button>
+										</div>
+									</form>
+								{{else}}
+									<h4 class="text-center">Please login to add a review! <a href="/user/login?returnUrl=/products/{{product.id}}">Click here to login</a></h4>
+								{{/if}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Product Description Area =================-->
+
+	<!--================ Start related Product area =================-->  
+	{{>topProduct}}
+	<!--================ end related Product area =================-->  	
+	{{{captcha}}}
+	<script>
+      function cb(token) {
+		// comment
+        var inputComment = document.createElement("input");
+        inputComment.setAttribute("hidden", true);
+		inputComment.setAttribute("type", "text");
+        inputComment.setAttribute("name", "g-recaptcha-response");
+        inputComment.setAttribute("value", token);
+		document.getElementById("form-comment").appendChild(inputComment);
+		
+		// review
+		var inputReview = document.createElement("input");
+        inputReview.setAttribute("hidden", true);
+		inputReview.setAttribute("type", "text");
+        inputReview.setAttribute("name", "g-recaptcha-response");
+        inputReview.setAttribute("value", token);
+		document.getElementById("form-review").appendChild(inputReview);
+		
+      }
+    </script>
+	<script>
+		var ratingText = ['Give a rating for this product!', 'worst', 'Bad', 'OK', 'Good', "Outstanding"]
+
+		function checkStar(star){
+			let stars = $('#star-list i');
+			$(stars).addClass('star-disable');
+			let rating = 0;
+			for(let i = 0; i < 5; i++){
+				$(stars[i]).removeClass('star-disable');
+				if((stars[i]) == star) {
+					rating = i + 1;
+					break;
+				}
+			}
+			return rating;
+		}
+
+		function setRating(){
+			let rating = checkStar(this);
+			$('#rating').val(rating);
+			$('#rating-text').html(ratingText[rating]);
+		}
+		
+		function resetStar(){
+			let stars = $('#star-list i');
+			$(stars).addClass('star-disable');
+			let rating = $('#rating').val() || 0;
+			$('#rating-text').html(ratingText[rating]);
+			for(let i = 0; i < rating; i++){
+				$(stars[i]).removeClass('star-disable');
+			}
+		}
+
+		function mouseOverStar(){
+			let rating = checkStar(this);
+			$('#rating-text').html(ratingText[rating]);
+		}
+
+		function mouseOutStar(){
+			resetStar();
+		}
+
+		$(document).ready(() => {
+			$('#reply-for').hide();
+			$('#star-list i').on('click', setRating);
+			$('#star-list i').on('mouseover', mouseOverStar);
+			$('#star-list i').on('mouseout', mouseOutStar);
+			resetStar();
+			$('#reply-for').hide();
+
+			// Chặn không cho submit comment trống
+			$('#form-comment').on('submit', () => {
+				let comment = $('#form-comment textarea[name="message"]').val();
+				if(!comment || comment.trim() == ''){
+					alert('Comment need to have content!');
+					return false;
+				}else{
+					return true;
+				}
+			});
+
+			// Chặn không cho submit review trống
+			$('#form-review').on('submit', () => {
+				let rating = $('#rating').val();
+				console.log(rating);
+				if(!rating || rating == 0){
+					alert('Review need to have a rating!');
+					return false;
+				}else{
+					return true;
+				}
+			});
+		});
+	</script>
+<script>
+  setChoose('Shop');
+</script>

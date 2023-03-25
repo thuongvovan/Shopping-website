@@ -1,0 +1,167 @@
+<!--================Cart Area =================-->
+{{#with cart}}
+    <section class='cart_area'>
+        <div class='container'>
+            <div class='cart_inner'>
+                <div class='table-responsive'>
+                    {{#if items.length}}
+                        <table class='table' id='cart-body'>
+                            <thead>
+                                <tr>
+                                    <th scope='col'>Product</th>
+                                    <th scope='col'>Price</th>
+                                    <th scope='col'>Quantity</th>
+                                    <th scope='col'>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each items}}
+                                    <tr id='cart-item-row-{{item.id}}'>
+                                        <td>
+                                            <div class='media'>
+                                                <div class='d-flex'>
+                                                    <a href='/products/{{item.id}}'><img
+                                                            style='height: auto; width: 150px'
+                                                            src='{{item.imagepath}}'
+                                                            alt=''
+                                                        /></a>
+                                                </div>
+                                                <div class='media-body'>
+                                                    <a href='/products/{{item.id}}'><p
+                                                        >{{item.name}}</p></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5>${{item.price}}</h5>
+                                        </td>
+                                        <td>
+                                            <div class='product_count'>
+                                                <input
+                                                    type='text'
+                                                    name='qty'
+                                                    id='sst-{{item.id}}'
+                                                    maxlength='12'
+                                                    value='{{quantity}}'
+                                                    title='Quantity:'
+                                                    class='input-text qty'
+                                                    readonly
+                                                />
+                                                <button
+                                                    onclick="var result = document.getElementById('sst-{{item.id}}'); var sst = result.value; if( !isNaN( sst )) result.value++; updateCart({{item.id}}, result.value); return false;"
+                                                    class='increase items-count'
+                                                    type='button'
+                                                ><i class='lnr lnr-chevron-up'></i></button>
+                                                <button
+                                                    onclick="var result = document.getElementById('sst-{{item.id}}'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 || sst == 1  &amp;&amp; confirm('Do you really want to remove {{item.name}}')){result.value--; updateCart({{item.id}}, result.value); return false;}"
+                                                    class='reduced items-count'
+                                                    type='button'
+                                                ><i class='lnr lnr-chevron-down'></i></button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5 id='total-price-{{id}}'>${{price}}</h5>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                                <tr class='bottom_button'>
+                                    <td>
+                                        <a class='button text-white bg-danger' onclick="clearCart()" href='#'>Clear Cart</a>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <div class='cupon_text d-flex align-items-center'>
+                                            <input type='text' placeholder='Coupon Code' />
+                                            <a class='primary-btn' href='#'>Apply</a>
+                                            <a class='button' href='#'>Have a Coupon?</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <h5>Subtotal</h5>
+                                    </td>
+                                    <td>
+                                        <h5 id='total-price'>${{totalPrice}}</h5>
+                                    </td>
+                                </tr>
+                                <tr class='shipping_area'>
+                                    <td class='d-none d-md-block'>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <h5>Shipping</h5>
+                                    </td>
+                                    <td>
+                                        <div class='shipping_box'>
+                                            <ul class='list'>
+                                                <li><a href='#'>Flat Rate: $5.00</a></li>
+                                                <li><a href='#'>Free Shipping</a></li>
+                                                <li><a href='#'>Flat Rate: $10.00</a></li>
+                                                <li class='active'><a href='#'>Local Delivery: $2.00</a></li>
+                                            </ul>
+                                            <h6>Calculate Shipping
+                                                <i
+                                                    class='fa fa-caret-down'
+                                                    aria-hidden='true'
+                                                ></i></h6>
+                                            <select class='shipping_select'>
+                                                <option value='1'>Bangladesh</option>
+                                                <option value='2'>India</option>
+                                                <option value='4'>Pakistan</option>
+                                            </select>
+                                            <select class='shipping_select'>
+                                                <option value='1'>Select a State</option>
+                                                <option value='2'>Select a State</option>
+                                                <option value='4'>Select a State</option>
+                                            </select>
+                                            <input type='text' placeholder='Postcode/Zipcode' />
+                                            <a class='gray_btn' href='#'>Update Details</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class='out_button_area'>
+                                    <td class='d-none-l'>
+
+                                    </td>
+                                    <td class=''>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <div class='checkout_btn_inner d-flex align-items-center'>
+                                            <a class='gray_btn' href='#'>Continue Shopping</a>
+                                            <a class='primary-btn ml-2' href='#'>Proceed to checkout</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <div class='p-5 m-5 alert alert-info text-center'>The cart is empty!</div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </section>
+{{/with}}
+<!--================End Cart Area =================-->
+<script>
+  setChoose('Shop');
+</script>

@@ -1,0 +1,40 @@
+{
+    "development": {
+        "username": "vovanthuong",
+        "password": "123456",
+        "database": "aroma-dev",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "logging": false
+    },
+    "test": {
+        "username": "vovanthuong",
+        "password": "123456",
+        "database": "aroma-dev",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "logging": false
+    },
+    "production": {
+        "username": "postgres",
+        "password": "Zxcv@1234",
+        "database": "aroma",
+        "host": "192.168.1.201",
+        "dialect": "postgres",
+        "logging": false
+    },
+    "production-heroku": {
+        "username": "qirnvddmlmlrbz",
+        "password": "596e78992658498d69401ea4ee1b48d1db1c97c62b151397468c5e4f7598bbf5",
+        "database": "ddcjg9ij0hqnb6",
+        "host": "ec2-54-161-255-125.compute-1.amazonaws.com",
+        "dialect": "postgres",
+        "logging": false,
+        "dialectOptions": {
+            "ssl": {
+                "require": true,
+                "rejectUnauthorized": false
+            }
+        }
+    }
+}

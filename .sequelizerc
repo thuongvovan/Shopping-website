@@ -1,0 +1,20 @@
+const path = require('path');
+require("dotenv").config();
+
+module.exports = {
+    env: process.env.ENV || "development"
+    // env: "production"
+
+
+//   'config': path.resolve('config', 'database.json'),
+//   'models-path': path.resolve('db', 'models'),
+//   'seeders-path': path.resolve('db', 'seeders'),
+//   'migrations-path': path.resolve('db', 'migrations')
+};
+
+
+// With this config you are telling the CLI to:
+// - Use config/database.json file for config settings;
+// - Use db/models as models folder;
+// - Use db/seeders as seeders folder;
+// - Use db/migrations as migrations folder.

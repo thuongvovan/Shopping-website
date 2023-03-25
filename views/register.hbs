@@ -1,0 +1,89 @@
+<!--================Login Box Area =================-->
+<section class='login_box_area section-margin'>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-lg-6'>
+                <div class='login_box_img'>
+                    <div class='hover'>
+                        <h4>Already have an account?</h4>
+                        <p>There are advances being made in science and technology everyday, and a good example of this
+                            is the</p>
+                        <a class='button button-account' href='/user/login'>Login Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-6'>
+                <div class='login_form_inner register_form_inner'>
+                    <h3>Create an account</h3>
+                    {{#if message}}
+                        <div class='alert alert-{{type}} mx-5' role='alert'>{{message}}</div>
+                    {{/if}}
+                    <form class='row login_form' action='/user/register' method='post' id='register_form'>
+                        <div class='col-md-12 form-group'>
+                            <input
+                                type='text'
+                                class='form-control'
+                                id='full-name'
+                                name='fullname'
+                                placeholder='Full Name'
+                                onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Full Name'"
+                                value='{{user.fullname}}'
+                            />
+                        </div>
+                        <div class='col-md-12 form-group'>
+                            <input
+                                type='text'
+                                class='form-control'
+                                id='username'
+                                name='username'
+                                placeholder='Email Address'
+                                onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Email Address'"
+                                value='{{user.username}}'
+                            />
+                        </div>
+                        <div class='col-md-12 form-group'>
+                            <input
+                                type='password'
+                                class='form-control'
+                                id='password'
+                                name='password'
+                                placeholder='Password'
+                                onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Password'"
+                                value='{{user.password}}'
+                            />
+                        </div>
+                        <div class='col-md-12 form-group'>
+                            <input
+                                type='password'
+                                class='form-control'
+                                id='confirmPassword'
+                                name='confirmPassword'
+                                placeholder='Confirm Password'
+                                onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Confirm Password'"
+                                value='{{user.confirmPassword}}'
+                            />
+                        </div>
+                        <div class='col-md-12 form-group'>
+                            <button type='submit' value='submit' class='button button-register w-100'>Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{{captcha}}}
+<script>
+    function cb(token) {
+		var input = document.createElement("input");
+		input.setAttribute("hidden", true);
+    	input.setAttribute("type", "text");
+		input.setAttribute("name", "g-recaptcha-response");
+		input.setAttribute("value", token);
+		document.getElementById("register_form").appendChild(input); }
+</script>
+<!--================End Login Box Area =================-->
